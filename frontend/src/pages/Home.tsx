@@ -145,7 +145,7 @@ export default function Home() {
       <div className="flex overflow-x-auto p-4">
         {/* Time Column */}
         <div className="w-16 flex-shrink-0 mt-10">
-          {timeSlots.map((time, idx) => (
+          {timeSlots.map((time) => (
             <div 
               key={time} 
               className="text-xs text-gray-400 font-medium text-right pr-2 relative -top-2"
@@ -160,7 +160,7 @@ export default function Home() {
         <div className="flex-1 flex min-w-[800px] border-l border-t border-gray-100 relative">
           {/* Horizontal Grid Lines */}
           <div className="absolute inset-0 pointer-events-none z-0">
-            {timeSlots.map((time, idx) => (
+            {timeSlots.map((time) => (
               <div 
                 key={`line-${time}`}
                 className="w-full border-b border-gray-100"
