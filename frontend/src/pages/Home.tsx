@@ -94,6 +94,7 @@ export default function Home() {
       <div className="border-b-4 border-transparent" style={{ borderImage: 'linear-gradient(to right, #f9a826, #f9a826, #81c784, #4fc3f7, #f9a826) 1' }}></div>
       <div className="p-4 flex flex-col md:flex-row justify-between items-center border-b border-gray-100">
         <div>
+        <div className="cursor-pointer" onClick={() => window.location.href = '/'}>
           <h1 className="text-2xl font-bold text-gray-800 flex items-center">
             ตารางสอนครูปาร์ค
           </h1>
@@ -102,7 +103,7 @@ export default function Home() {
           </p>
         </div>
         
-        <div className="flex flex-wrap items-center gap-2 mt-4 md:mt-0">
+        <div className="flex flex-wrap items-center gap-2 mt-4 md:mt-0 no-print">
           <div className="flex bg-gray-100 rounded-full p-1 mr-2">
             <button 
               onClick={() => setScheduleVariant(1)}
@@ -127,14 +128,17 @@ export default function Home() {
           {isAdmin && (
             <button 
               onClick={() => setShowClassForm(true)}
-              className="flex items-center gap-1 px-4 py-1.5 bg-brand-400 hover:bg-brand-500 text-gray-900 rounded-full text-sm font-semibold transition-colors shadow-sm"
+              className="flex items-center gap-1 px-4 py-1.5 bg-brand-400 hover:bg-brand-500 text-gray-900 rounded-full text-sm font-semibold transition-colors shadow-sm no-print"
             >
               <Plus size={16} />
               เพิ่มคาบเรียน
             </button>
           )}
 
-          <button className="flex items-center gap-1 px-4 py-1.5 bg-green-500 hover:bg-green-600 text-white rounded-full text-sm font-medium transition-colors shadow-sm">
+          <button 
+            onClick={() => window.print()}
+            className="flex items-center gap-1 px-4 py-1.5 bg-green-500 hover:bg-green-600 text-white rounded-full text-sm font-medium transition-colors shadow-sm no-print"
+          >
             <Printer size={16} />
             PDF
           </button>

@@ -13,3 +13,12 @@ body {
   background-color: #F8F9FA;
   color: #333333;
 }
+
+
+@media print {
+  .no-print { display: none !important; }
+  @page { size: landscape; margin: 0.5cm; }
+  body { background: white !important; }
+  .min-w-[800px] { min-width: 100% !important; }
+  .overflow-x-auto { overflow: visible !important; }
+}

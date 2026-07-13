@@ -448,8 +448,17 @@ export default function AdminDashboard() {
                             <div className="font-medium text-gray-800">{en.name}</div>
                             <div className="text-xs text-gray-500">{en.billing_type === 'monthly' ? 'รายเดือน' : 'รายครั้ง'} ({en.amount} บาท)</div>
                           </div>
-                          {/* We would add a remove enrollment button here if we built the DELETE endpoint, but for now we skip or add a visual placeholder */}
-                          <button onClick={() => alert('ฟังก์ชั่นนำนักเรียนออกจากคลาสกำลังพัฒนาต่อ')} className="text-red-400 hover:text-red-600 text-sm">นำออก</button>
+                          {/* Remove enrollment button */}
+                          <button 
+                            onClick={() => {
+                              if(confirm('ยืนยันการนำนักเรียนออกจากคลาส?')) {
+                                unenrollStudentMutation.mutate(en.id);
+                              }
+                            }} 
+                            className="text-red-400 hover:text-red-600 text-sm"
+                          >
+                            นำออก
+                          </button>
                         </li>
                       ))}
                       {enrollments?.length === 0 && <li className="p-8 text-center text-gray-500">ยังไม่มีนักเรียนในคลาสนี้</li>}
