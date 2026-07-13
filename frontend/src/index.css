@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-100: #FDE2E4;
+  --color-brand-200: #FAD2E1;
+  --color-brand-300: #E2ECE9;
+  --color-brand-400: #BEE1E6;
+  --color-brand-500: #DFE7FD;
+}
+
+body {
+  font-family: 'Prompt', 'Noto Sans Thai', sans-serif;
+  background-color: #F8F9FA;
+  color: #333333;
+}
