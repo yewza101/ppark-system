@@ -1,5 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Printer, X, Save, Globe, Home as HomeIcon } from 'lucide-react';
@@ -86,7 +86,26 @@ export default function Home() {
 
   const [scheduleVariant, setScheduleVariant] = useState(1);
 
-  if (isLoading) return <div className="text-center py-10">กำลังโหลดตารางเรียน...</div>;
+  const [isSlowLoading, setIsSlowLoading] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => setIsSlowLoading(true), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
+
+  if (isLoading) return (
+    <div className="w-full h-screen flex flex-col items-center justify-center gap-4 bg-white/50 backdrop-blur-sm animate-pulse">
+      <div className="w-12 h-12 border-4 border-brand-200 border-t-brand-400 rounded-full animate-spin"></div>
+      <div className="text-gray-500 font-medium text-lg">กำลังโหลดตารางเรียน...</div>
+      {isSlowLoading && (
+        <div className="text-amber-500 text-sm max-w-sm text-center px-4 mt-2">
+          เซิร์ฟเวอร์กำลังตื่นจากการพักตัว อาจใช้เวลาประมาณ 30-50 วินาทีในครั้งแรกครับ
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden font-sans">
