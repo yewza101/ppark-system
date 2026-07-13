@@ -75,7 +75,7 @@ export default function AdminDashboard() {
   const saveStudentMutation = useMutation({
     mutationFn: async (student: any) => {
       const method = isEditingStudent ? 'PATCH' : 'POST';
-      const url = isEditingStudent ? `/api/admin/students/${student.id}` : '/api/admin/students';
+      const url = isEditingStudent ? `${API_URL}/api/admin/students/${student.id}` : `${API_URL}/api/admin/students`;
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
   const saveClassMutation = useMutation({
     mutationFn: async (cls: any) => {
       const method = isEditingClass ? 'PATCH' : 'POST';
-      const url = isEditingClass ? `/api/admin/classes/${cls.id}` : '/api/admin/classes';
+      const url = isEditingClass ? `${API_URL}/api/admin/classes/${cls.id}` : `${API_URL}/api/admin/classes`;
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
