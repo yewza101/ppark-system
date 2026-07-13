@@ -168,4 +168,14 @@ router.patch('/session-payments/:id/mark-paid', async (req, res) => {
   res.json(data[0]);
 });
 
+// Feedback
+router.get('/feedback', async (req, res) => {
+  const { data, error } = await supabase
+    .from('feedback')
+    .select('*, students(name)')
+    .order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
 module.exports = router;

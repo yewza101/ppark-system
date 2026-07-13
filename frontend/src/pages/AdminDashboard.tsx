@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 export default function AdminDashboard() {
   const location = useLocation();
   const token = localStorage.getItem('adminToken');
-  const [activeTab, setActiveTab] = useState<'students' | 'classes' | 'billing'>('students');
+  const [activeTab, setActiveTab] = useState<'students' | 'classes' | 'billing' | 'feedback'>('students');
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -70,6 +70,15 @@ export default function AdminDashboard() {
       return res.json();
     },
     enabled: !!token && activeTab === 'billing'
+  });
+
+  const { data: feedbacks, isLoading: feedbacksLoading } = useQuery({
+    queryKey: ['adminFeedback'],
+    queryFn: async () => {
+      const res = await fetch(`${API_URL}/api/admin/feedback`, { headers: { 'Authorization': `Bearer ${token}` } });
+      return res.json();
+    },
+    enabled: !!token && activeTab === 'feedback'
   });
 
   // --- Mutations: Students ---
@@ -244,6 +253,7 @@ export default function AdminDashboard() {
         <button onClick={() => setActiveTab('students')} className={`p-3 text-left rounded-lg transition-colors font-medium ${activeTab === 'students' ? 'bg-brand-400 text-gray-900 shadow-sm' : 'hover:bg-gray-200 text-gray-700'}`}>จัดการนักเรียน</button>
         <button onClick={() => setActiveTab('classes')} className={`p-3 text-left rounded-lg transition-colors font-medium ${activeTab === 'classes' ? 'bg-brand-400 text-gray-900 shadow-sm' : 'hover:bg-gray-200 text-gray-700'}`}>จัดการชั้นเรียน</button>
         <button onClick={() => setActiveTab('billing')} className={`p-3 text-left rounded-lg transition-colors font-medium ${activeTab === 'billing' ? 'bg-brand-400 text-gray-900 shadow-sm' : 'hover:bg-gray-200 text-gray-700'}`}>ระบบรายเดือน</button>
+        <button onClick={() => setActiveTab('feedback')} className={`p-3 text-left rounded-lg transition-colors font-medium ${activeTab === 'feedback' ? 'bg-brand-400 text-gray-900 shadow-sm' : 'hover:bg-gray-200 text-gray-700'}`}>ฟีดแบคจากผู้ปกครอง</button>
       </div>
       
       {/* Content */}
@@ -646,6 +656,41 @@ export default function AdminDashboard() {
                 </table>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* FEEDBACK TAB */}
+        {activeTab === 'feedback' && (
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex-1">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <span>💬</span> ข้อความจากผู้ปกครอง
+            </h2>
+            
+            {feedbacksLoading ? (
+              <div className="text-center py-10 text-gray-500">กำลังโหลด...</div>
+            ) : (
+              <div className="space-y-4">
+                {feedbacks?.length === 0 ? (
+                  <div className="text-center py-10 text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                    ยังไม่มีข้อความฟีดแบค
+                  </div>
+                ) : (
+                  feedbacks?.map((fb: any) => (
+                    <div key={fb.id} className="p-4 border border-gray-100 rounded-lg bg-gray-50 hover:bg-white hover:shadow-sm transition-all">
+                      <div className="flex justify-between items-start mb-2">
+                        <div className="font-semibold text-gray-800 text-lg">
+                          ผู้ปกครองน้อง {fb.students?.name || 'ไม่ทราบชื่อ'}
+                        </div>
+                        <div className="text-xs text-gray-500 bg-white px-2 py-1 rounded border border-gray-200">
+                          {new Date(fb.created_at).toLocaleString('th-TH')}
+                        </div>
+                      </div>
+                      <p className="text-gray-700 whitespace-pre-wrap">{fb.message}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
