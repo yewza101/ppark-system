@@ -2,7 +2,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
-import { Plus, Trash2, Edit2, Users, Save, X, Settings, Globe, Home } from 'lucide-react';
+import { Trash2, Edit2, Users, Save, X, Globe, Home } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 export default function AdminDashboard() {
