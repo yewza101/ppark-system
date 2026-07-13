@@ -93,7 +93,6 @@ export default function Home() {
       {/* Header matching the image */}
       <div className="border-b-4 border-transparent" style={{ borderImage: 'linear-gradient(to right, #f9a826, #f9a826, #81c784, #4fc3f7, #f9a826) 1' }}></div>
       <div className="p-4 flex flex-col md:flex-row justify-between items-center border-b border-gray-100">
-        <div>
         <div className="cursor-pointer" onClick={() => window.location.href = '/'}>
           <h1 className="text-2xl font-bold text-gray-800 flex items-center">
             ตารางสอนครูปาร์ค
