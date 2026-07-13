@@ -1,6 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
 
 export default function ParentPortal() {
   const [studentId, setStudentId] = useState('');
@@ -45,8 +46,9 @@ export default function ParentPortal() {
     if (data.token) {
       localStorage.setItem('parentToken', data.token);
       setToken(data.token);
+      toast.success('เข้าสู่ระบบสำเร็จ');
     } else {
-      alert(data.error || 'Login failed');
+      toast.error(data.error || 'Login failed');
     }
   };
 

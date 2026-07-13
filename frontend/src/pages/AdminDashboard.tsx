@@ -2,7 +2,8 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
-import { Edit2, Trash2, Users, X, Save, Globe, Home } from 'lucide-react';
+import { Plus, Trash2, Edit2, Users, Save, X, Settings, Globe, Home } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 export default function AdminDashboard() {
   const location = useLocation();
@@ -171,8 +172,11 @@ export default function AdminDashboard() {
       }
       return res.json();
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['monthlyBills', billingMonth] }),
-    onError: (err: any) => alert(`เกิดข้อผิดพลาดในการสร้างบิล: ${err.message}`)
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['monthlyBills', billingMonth] });
+      toast.success('สร้างบิลสำเร็จ');
+    },
+    onError: (err: any) => toast.error(`เกิดข้อผิดพลาดในการสร้างบิล: ${err.message}`)
   });
 
   const payBillMutation = useMutation({
@@ -187,8 +191,11 @@ export default function AdminDashboard() {
       }
       return res.json();
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['monthlyBills', billingMonth] }),
-    onError: (err: any) => alert(`เกิดข้อผิดพลาดในการชำระเงิน: ${err.message}`)
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['monthlyBills', billingMonth] });
+      toast.success('รับชำระเงินเรียบร้อย');
+    },
+    onError: (err: any) => toast.error(`เกิดข้อผิดพลาดในการชำระเงิน: ${err.message}`)
   });
 
   // --- Handlers ---
