@@ -143,6 +143,20 @@ export default function AdminDashboard() {
     }
   });
 
+  const unenrollStudentMutation = useMutation({
+    mutationFn: async (enrollmentId: string) => {
+      const res = await fetch(`${API_URL}/api/admin/enrollments/${enrollmentId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Failed to unenroll student');
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['classEnrollments', selectedClassForEnrollment?.id] });
+    }
+  });
+
   // --- Mutations: Billing ---
   const generateBillMutation = useMutation({
     mutationFn: async ({ student_id, amount }: { student_id: string, amount: number }) => {
