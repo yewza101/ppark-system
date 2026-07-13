@@ -127,7 +127,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/attendance/:classId/:date" element={<Attendance />} />
+            <Route path="/attendance/:classId" element={<Attendance />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/parent/login" element={<ParentPortal />} />
           </Routes>
