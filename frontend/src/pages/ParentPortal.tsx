@@ -57,6 +57,35 @@ export default function ParentPortal() {
     setToken('');
   };
 
+  const [feedback, setFeedback] = useState('');
+  const [feedbackStatus, setFeedbackStatus] = useState('');
+
+  const submitFeedback = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!feedback.trim()) return;
+    
+    setFeedbackStatus('sending');
+    try {
+      const res = await fetch(`${API_URL}/api/parent/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ message: feedback })
+      });
+      
+      if (!res.ok) throw new Error('Failed to send');
+      
+      setFeedbackStatus('success');
+      setFeedback('');
+      setTimeout(() => setFeedbackStatus(''), 3000);
+    } catch (err) {
+      setFeedbackStatus('error');
+      setTimeout(() => setFeedbackStatus(''), 3000);
+    }
+  };
+
   if (!token) {
     return (
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
@@ -94,34 +123,6 @@ export default function ParentPortal() {
     );
   }
 
-  const [feedback, setFeedback] = useState('');
-  const [feedbackStatus, setFeedbackStatus] = useState('');
-
-  const submitFeedback = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!feedback.trim()) return;
-    
-    setFeedbackStatus('sending');
-    try {
-      const res = await fetch(`${API_URL}/api/parent/feedback`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ message: feedback })
-      });
-      
-      if (!res.ok) throw new Error('Failed to send');
-      
-      setFeedbackStatus('success');
-      setFeedback('');
-      setTimeout(() => setFeedbackStatus(''), 3000);
-    } catch (err) {
-      setFeedbackStatus('error');
-      setTimeout(() => setFeedbackStatus(''), 3000);
-    }
-  };
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
